@@ -163,6 +163,31 @@ function getToken() {
                     if (currentToken) {
                         sendTokenToServer(currentToken);
                         updateUIForPushEnabled(currentToken);
+
+                       
+                            fetch('https://iid.googleapis.com/iid/v1/'+currentToken+'/rel/topics/news', {
+                                method: 'POST',
+                                headers: {
+                                    'Authorization': 'key=' + key,
+                                    'Content-Type': 'application/json'
+                                }
+                            }).then(function(response) {
+                                return response.json();
+                            }).then(function(json) {
+                                console.log('Response', json);
+                
+                                if (json.success === 1) {
+                                    massage_row.show();
+                                    massage_id.text(json.results[0].message_id);
+                                } else {
+                                    massage_row.hide();
+                                    massage_id.text(json.results[0].error);
+                                }
+                            }).catch(function(error) {
+                                showError(error);
+                            });
+                        
+
                     } else {
                         showError('No Instance ID token available. Request permission to generate one');
                         updateUIForPushPermissionRequired();
@@ -224,33 +249,7 @@ function sendNotification(notification) {
             showError('Error retrieving Instance ID token', error);
         });
 
-        messaging.getToken()
-        .then(function(currentToken) {
-            fetch('https://iid.googleapis.com/iid/v1/'+currentToken+'/rel/topics/news', {
-                method: 'POST',
-                headers: {
-                    'Authorization': 'key=' + key,
-                    'Content-Type': 'application/json'
-                }
-            }).then(function(response) {
-                return response.json();
-            }).then(function(json) {
-                console.log('Response', json);
-
-                if (json.success === 1) {
-                    massage_row.show();
-                    massage_id.text(json.results[0].message_id);
-                } else {
-                    massage_row.hide();
-                    massage_id.text(json.results[0].error);
-                }
-            }).catch(function(error) {
-                showError(error);
-            });
-        })
-        .catch(function(error) {
-            showError('Error retrieving Instance ID token', error);
-        });
+       
 }
 
 // Send the Instance ID token your application server, so that it can:
