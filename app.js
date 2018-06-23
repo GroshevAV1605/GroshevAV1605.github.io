@@ -163,30 +163,7 @@ function getToken() {
                     if (currentToken) {
                         sendTokenToServer(currentToken);
                         updateUIForPushEnabled(currentToken);
-
-                       
-                            fetch('https://iid.googleapis.com/iid/v1/'+currentToken+'/rel/topics/news', {
-                                method: 'POST',
-                                headers: {
-                                    'Authorization': 'key=' + key,
-                                    'Content-Type': 'application/json'
-                                }
-                            }).then(function(response) {
-                                return response.json();
-                            }).then(function(json) {
-                                console.log('Response', json);
-                
-                                if (json.success === 1) {
-                                    massage_row.show();
-                                    massage_id.text(json.results[0].message_id);
-                                } else {
-                                    massage_row.hide();
-                                    massage_id.text(json.results[0].error);
-                                }
-                            }).catch(function(error) {
-                                showError(error);
-                            });
-                        
+                        subscribeTokenToTopic(currentToken, 'news')
 
                     } else {
                         showError('No Instance ID token available. Request permission to generate one');
@@ -205,6 +182,21 @@ function getToken() {
         });
 }
 
+function subscribeTokenToTopic(token, topic) {
+    fetch('https://iid.googleapis.com/iid/v1/'+token+'/rel/topics/'+topic, {
+      method: 'POST',
+      headers: new Headers({
+        'Authorization': 'key='+'AAAAnNtymxQ:APA91bHBpkOphHQ4OTD3z6PCQZ0HZYlFvQV3p-gMYi5kePRe3U5mEjWOVbsIrSK8qrhlWr62r_wW3IGWyl6Lx1RpaB04NMZOLvSrmTXNKhlst6CQwyPoCvzC7MlQqqCFKjAKeESyGxJPLr1oTijvVThW7Y-OcymU7Q'
+      })
+    }).then(response => {
+      if (response.status < 200 || response.status >= 400) {
+        throw 'Error subscribing to topic: '+response.status + ' - ' + response.text();
+      }
+      console.log('Subscribed to "'+topic+'"');
+    }).catch(error => {
+      console.error(error);
+    })
+  }
 
 function sendNotification(notification) {
     var key = 'AAAAnNtymxQ:APA91bHBpkOphHQ4OTD3z6PCQZ0HZYlFvQV3p-gMYi5kePRe3U5mEjWOVbsIrSK8qrhlWr62r_wW3IGWyl6Lx1RpaB04NMZOLvSrmTXNKhlst6CQwyPoCvzC7MlQqqCFKjAKeESyGxJPLr1oTijvVThW7Y-OcymU7Q';
