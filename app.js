@@ -164,7 +164,12 @@ function getToken() {
                     if (currentToken) {
                         sendTokenToServer(currentToken);
                         updateUIForPushEnabled(currentToken);
-                        subscribeTokenToTopic(currentToken, 'news')
+                        
+                        $('input[type=checkbox]').each(function(){
+                            if($(this).prop('checked')){
+                                subscribeTokenToTopic(currentToken, $(this).attr('name'))
+                            }
+                        })
 
                     } else {
                         showError('No Instance ID token available. Request permission to generate one');
