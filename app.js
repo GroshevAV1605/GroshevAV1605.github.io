@@ -77,11 +77,12 @@ if (
     form.on('submit', function(event) {
         event.preventDefault();
 
-        var notification = {};
-        form.find('input').each(function () {
-            var input = $(this);
-            notification[input.attr('name')] = input.val();
-        });
+        var notification = {"title": "Тестовое уведомление",
+        "body":"ТЕСТ",
+        "icon":"https://peter-gribanov.github.io/serviceworker/Bubble-Nebula.jpg",
+        "image":"https://peter-gribanov.github.io/serviceworker/Bubble-Nebula_big.jpg"
+    };
+       
 
         sendNotification(notification);
     });
