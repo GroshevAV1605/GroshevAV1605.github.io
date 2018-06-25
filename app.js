@@ -77,12 +77,11 @@ if (
     form.on('submit', function(event) {
         event.preventDefault();
 
-        var notification = {"title": "Тестовое уведомление",
-        "body":"ТЕСТ",
-        "icon":"https://peter-gribanov.github.io/serviceworker/Bubble-Nebula.jpg",
-        "image":"https://peter-gribanov.github.io/serviceworker/Bubble-Nebula_big.jpg"
-        };
-       
+        var notification = {};
+        form.find('input').each(function () {
+            var input = $(this);
+            notification[input.attr('name')] = input.val();
+        });
 
         sendNotification(notification);
     });
@@ -164,12 +163,7 @@ function getToken() {
                     if (currentToken) {
                         sendTokenToServer(currentToken);
                         updateUIForPushEnabled(currentToken);
-                        
-                        $('input[type=checkbox]').each(function(){
-                            if($(this).prop('checked')){
-                                subscribeTokenToTopic(currentToken, $(this).attr('name'))
-                            }
-                        })
+                        subscribeTokenToTopic(currentToken, 'news')
 
                     } else {
                         showError('No Instance ID token available. Request permission to generate one');
