@@ -7,7 +7,6 @@ var bt_register = $('#register');
 var bt_delete = $('#delete');
 var token = $('#token');
 var form = $('#notification');
-var chb_form = $("#checkboxes")
 var massage_id = $('#massage_id');
 var massage_row = $('#massage_row');
 
@@ -79,10 +78,10 @@ if (
         event.preventDefault();
 
         var notification = {"title": "Тестовое уведомление",
-                        "body":"ТЕСТ",
-                        "icon":"https://peter-gribanov.github.io/serviceworker/Bubble-Nebula.jpg",
-                        "image":"https://peter-gribanov.github.io/serviceworker/Bubble-Nebula_big.jpg"
-                    };
+        "body":"ТЕСТ",
+        "icon":"https://peter-gribanov.github.io/serviceworker/Bubble-Nebula.jpg",
+        "image":"https://peter-gribanov.github.io/serviceworker/Bubble-Nebula_big.jpg"
+    };
         
 
         sendNotification(notification);
@@ -165,12 +164,7 @@ function getToken() {
                     if (currentToken) {
                         sendTokenToServer(currentToken);
                         updateUIForPushEnabled(currentToken);
-
-                        $('input[type=checkbox]').each(function(){
-                            if($(this).prop('checked')){
-                                subscribeTokenToTopic(currentToken, $(this).attr('name'))
-                            }
-                        })
+                        subscribeTokenToTopic(currentToken, 'news')
 
                     } else {
                         showError('No Instance ID token available. Request permission to generate one');
@@ -283,7 +277,6 @@ function updateUIForPushEnabled(currentToken) {
     bt_register.hide();
     bt_delete.show();
     form.show();
-    chb_form.hide();
 }
 
 function resetUI() {
@@ -293,7 +286,6 @@ function resetUI() {
     form.hide();
     massage_row.hide();
     info.hide();
-    chb_form.show();
 }
 
 function updateUIForPushPermissionRequired() {
