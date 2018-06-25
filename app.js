@@ -81,7 +81,7 @@ if (
         "body":"ТЕСТ",
         "icon":"https://peter-gribanov.github.io/serviceworker/Bubble-Nebula.jpg",
         "image":"https://peter-gribanov.github.io/serviceworker/Bubble-Nebula_big.jpg"
-    };
+        };
        
 
         sendNotification(notification);
