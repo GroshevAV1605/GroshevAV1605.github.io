@@ -16,12 +16,23 @@ var info_message = $('#info-message');
 var alert = $('#alert');
 var alert_message = $('#alert-message');
 
+var input_body = $('#body');
 var timerId = setInterval(setNotificationDemoBody, 10000);
+
+function setNotificationDemoBody() {
+    if (input_body.val().search(/^It's found today at \d\d:\d\d$/i) !== -1) {
+        var now = new Date();
+        input_body.val('It\'s found today at ' + now.getHours() + ':' + addZero(now.getMinutes()));
+    } else {
+        clearInterval(timerId);
+    }
+}
 
 function addZero(i) {
     return i > 9 ? i : '0' + i;
 }
 
+setNotificationDemoBody();
 resetUI();
 
 if (
@@ -66,12 +77,11 @@ if (
     form.on('submit', function(event) {
         event.preventDefault();
 
-        var notification = {"title": "Тестовое уведомление",
-        "body":"ТЕСТ",
-        "icon":"https://peter-gribanov.github.io/serviceworker/Bubble-Nebula.jpg",
-        "image":"https://peter-gribanov.github.io/serviceworker/Bubble-Nebula_big.jpg"
-    };
-        
+        var notification = {};
+        form.find('input').each(function () {
+            var input = $(this);
+            notification[input.attr('name')] = input.val();
+        });
 
         sendNotification(notification);
     });
@@ -82,8 +92,8 @@ if (
         info.show();
         info_message
             .text('')
-            .append('<strong>'+'Notification!!!'+'</strong>')
-            .append('<em>'+'Something happened'+'</em>')
+            .append('<strong>'+payload.data.title+'</strong>')
+            .append('<em>'+payload.data.body+'</em>')
         ;
 
         // register fake ServiceWorker for show notification on mobile devices
@@ -94,7 +104,7 @@ if (
                   // Copy data object to get parameters in the click handler
                   payload.data.data = JSON.parse(JSON.stringify(payload.data));
 
-                  registration.showNotification('Notification!!!', payload.data);
+                  registration.showNotification(payload.data.title, payload.data);
                 }).catch(function(error) {
                     // registration failed :(
                     showError('ServiceWorker registration failed', error);
