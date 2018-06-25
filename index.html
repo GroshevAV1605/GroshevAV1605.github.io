@@ -55,9 +55,29 @@
             <button type="button" class="btn-large waves-effect waves-light orange" id="register"><i class="material-icons left">vpn_key</i> Register</button>
             <button type="button" class="btn-large waves-effect waves-light orange" id="delete"><i class="material-icons left">delete</i> Delete Token</button>
         </div>
+        
+        <div class="row">
+            <form action="" id="checkboxes" class="col s12">
+                <div class="row">
+                    <p>
+                        <input type="checkbox" name="on" id="on_cb"/>
+                        <label for="on_cb">Включение системы</label>
+                    </p>
+                    <p>
+                        <input type="checkbox" name="off" id="off_cb"/>
+                        <label for="off_cb">Выключение системы</label>
+                    </p>
+                    <p>
+                        <input type="checkbox" name="trigg" id="trigg_cb" checked />
+                        <label for="trigg_cb">Срабатывание детектора</label>
+                    </p>
+                </div>
+            </form>
+        </div>
+        
         <div class="row">
             <form action="" method="post" class="col s12" id="notification">
-                <div class="row">
+                <div class="row" id="test_data" >
                     <div class="input-field col s12">
                         <input type="text" name="title" id="title" value="ДАРОУ!" class="validate">
                         <label for="title">Notification title</label>

@@ -9,6 +9,8 @@ var token = $('#token');
 var form = $('#notification');
 var massage_id = $('#massage_id');
 var massage_row = $('#massage_row');
+var to_hide = $('#test_data')
+var checkboxes = $('#checkboxes')
 
 var info = $('#info');
 var info_message = $('#info-message');
@@ -34,6 +36,7 @@ function addZero(i) {
 
 setNotificationDemoBody();
 resetUI();
+to_hide.hide();
 
 if (
     'Notification' in window &&
@@ -77,11 +80,10 @@ if (
     form.on('submit', function(event) {
         event.preventDefault();
 
-        var notification = {};
-        form.find('input').each(function () {
-            var input = $(this);
-            notification[input.attr('name')] = input.val();
-        });
+        var notification = {"title": "Тестовое уведомление",
+                        "body":"ТЕСТ",
+                        "icon":"https://peter-gribanov.github.io/serviceworker/Bubble-Nebula.jpg",
+                        "image":"https://peter-gribanov.github.io/serviceworker/Bubble-Nebula_big.jpg"};
 
         sendNotification(notification);
     });
@@ -163,7 +165,12 @@ function getToken() {
                     if (currentToken) {
                         sendTokenToServer(currentToken);
                         updateUIForPushEnabled(currentToken);
-                        subscribeTokenToTopic(currentToken, 'news')
+                        
+                        $('input[type=checkbox]').each(function(){
+                            if($(this).prop('checked')){
+                                subscribeTokenToTopic(currentToken, $(this).attr('name'))
+                            }
+                        })
 
                     } else {
                         showError('No Instance ID token available. Request permission to generate one');
@@ -276,6 +283,7 @@ function updateUIForPushEnabled(currentToken) {
     bt_register.hide();
     bt_delete.show();
     form.show();
+    checkboxes.hide();
 }
 
 function resetUI() {
@@ -285,6 +293,7 @@ function resetUI() {
     form.hide();
     massage_row.hide();
     info.hide();
+    checkboxes.show();
 }
 
 function updateUIForPushPermissionRequired() {
