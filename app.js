@@ -62,8 +62,8 @@ if (
     bt_register.on('click', function() {
         var passCountRef = firebase.database().ref();
         var pass_val;
-        passCountRef.once('value').then(function(snapshot){
-            pass_val = snapshot.val();
+        passCountRef.on('value', function(snapp){
+            pass_val = snapp.val();
         });
         console.log(JSON.stringify(pass_val));
         if (pass_val == pass.val()){
