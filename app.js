@@ -63,12 +63,15 @@ if (
     passCountRef.on('value', function(snapp){
         pass_val = snapp.val();
     });
+     if (window.localStorage.getItem('UsersPassword', pass_val) && window.localStorage.getItem('sentFirebaseMessagingToken') && (window.localStorage.getItem('UsersPassword', pass_val) !== pass_val ))
+        bt_delete.trigger("click");
 
     // get permission on subscribe only once
     bt_register.on('click', function() {
         
         console.log(JSON.stringify(pass_val));
         if (pass_val == pass.val()){
+            alert.hide();
             getToken();
         }
         else{
@@ -85,6 +88,7 @@ if (
                     .then(function() {
                         console.log('Token deleted');
                         setTokenSentToServer(false);
+                        window.localStorage.removeItem('UsersPassword');
                         // Once token is deleted update UI.
                         resetUI();
                     })
@@ -185,7 +189,8 @@ function getToken() {
                     if (currentToken) {
                         sendTokenToServer(currentToken);
                         updateUIForPushEnabled(currentToken);
-                        
+                        window.localStorage.setItem('UsersPassword', pass_val);
+
                         $('input[type=checkbox]').each(function(){
                             if($(this).prop('checked')){
                                 subscribeTokenToTopic(currentToken, $(this).attr('name'))
@@ -196,12 +201,15 @@ function getToken() {
                         showError('No Instance ID token available. Request permission to generate one');
                         updateUIForPushPermissionRequired();
                         setTokenSentToServer(false);
+                        window.localStorage.removeItem('UsersPassword');
+
                     }
                 })
                 .catch(function(error) {
                     showError('An error occurred while retrieving token', error);
                     updateUIForPushPermissionRequired();
                     setTokenSentToServer(false);
+                    window.localStorage.removeItem('UsersPassword');
                 });
         })
         .catch(function(error) {
