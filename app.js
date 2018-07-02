@@ -58,6 +58,11 @@ if (
         getToken();
     }
 
+    var pass_val;
+    passCountRef.on('value', function(snapp){
+        pass_val = snapp.val();
+    });
+
     // get permission on subscribe only once
     bt_register.on('click', function() {
         var passCountRef = firebase.database().ref().child('password');
