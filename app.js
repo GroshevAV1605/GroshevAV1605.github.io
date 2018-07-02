@@ -64,6 +64,7 @@ if (
         passCountRef.once('value', function(snapshot){
             pass_val = snapshot.val();
         })
+        console.log(pass_val);
         if (pass_val == pass.val()){
             getToken();
         }
