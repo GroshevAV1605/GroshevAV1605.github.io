@@ -63,7 +63,9 @@ if (
     passCountRef.on('value', function(snapp){
         pass_val = snapp.val();
     });
-     if (window.localStorage.getItem('UsersPassword', pass_val) && window.localStorage.getItem('sentFirebaseMessagingToken') && (window.localStorage.getItem('UsersPassword', pass_val) !== pass_val ))
+    console.log(window.localStorage.getItem('UsersPassword'));
+    console.log(pass_val);
+     if (window.localStorage.getItem('UsersPassword') && window.localStorage.getItem('sentFirebaseMessagingToken') && (window.localStorage.getItem('UsersPassword') !== pass_val ))
         bt_delete.trigger("click");
 
     // get permission on subscribe only once
