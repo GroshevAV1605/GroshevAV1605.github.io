@@ -1,9 +1,10 @@
 firebase.initializeApp({
-    messagingSenderId: '673696619284',
-    apiKey: "J9ggzrV0T1WmlYQJ3EZNj93JW14KwMk9FBsiCear",
+    apiKey: "AIzaSyBlgwaRSJGC0jIGyR9GLBr6w8xu6JknOnE",
     authDomain: "ardmess.firebaseapp.com",
     databaseURL: "https://ardmess.firebaseio.com",
-    storageBucket: "ardmess.appspot.com"
+    projectId: "ardmess",
+    storageBucket: "ardmess.appspot.com",
+    messagingSenderId: "673696619284"
 });
 
 
@@ -59,7 +60,7 @@ if (
 
     // get permission on subscribe only once
     bt_register.on('click', function() {
-        /*var passCountRef = firebase.database().ref().child('password');
+        var passCountRef = firebase.database().ref().child('password');
         var pass_val;
         passCountRef.once('value').then(function(snapshot){
             pass_val = snapshot.val();
@@ -70,10 +71,7 @@ if (
         }
         else{
             showError('Password is incorrect!');
-        }*/
-        firebase.database().ref().set({
-            password: "456"
-          });
+        }
     });
 
     bt_delete.on('click', function() {
