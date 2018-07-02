@@ -60,7 +60,7 @@ if (
 
     // get permission on subscribe only once
     bt_register.on('click', function() {
-        var passCountRef = firebase.database().ref().child('password');
+        var passCountRef = firebase.database().ref();
         var pass_val;
         passCountRef.once('value').then(function(snapshot){
             pass_val = snapshot.val();
