@@ -61,9 +61,9 @@ if (
     bt_register.on('click', function() {
         var passCountRef = firebase.database().ref().child('password');
         var pass_val;
-        passCountRef.once('value', function(snapshot){
+        passCountRef.once('value').then(function(snapshot){
             pass_val = snapshot.val();
-        })
+        });
         console.log(pass_val);
         if (pass_val == pass.val()){
             getToken();
